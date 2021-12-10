@@ -15,9 +15,15 @@ It does the following:
 - Runs `flutter --version`.
 - If the cache hit was false then post job success, it caches `$RUNNER_TOOL_CACHE/flutter` folder using the key `flutter-${{ runner.os }}-${{ inputs.ref }}-${{ env.FLUTTER_REF_HEAD }}`.
 
-Note that GitHub will remove any cache entries that have not been accessed in over 7 days. <br/>
-This will help to save some minutes.
-Which matters if your repository is private.
+Caching Flutter will help to save some minutes. <br/>
+Private repositories with Free plan has only 2,000 automation minutes/month. <br/>
+And the minutes are counted as - <br/>
+Linux - 1 minute counted as 1 regular minute. <br/>
+Windows - 1 minute counted as 2 regular minutes. <br/>
+macOS - 1 minute counted as 10 regular minutes. <br/>
+Usage for the month can be seen in https://github.com/settings/billing
+
+Stats from workflow runs of before and after caching - 
 
 <table>
     <thead>
@@ -56,6 +62,9 @@ Which matters if your repository is private.
         </tr>
     </tbody>
 </table>
+
+Note that GitHub will remove any cache entries that have not been accessed in over 7 days.
+
 
 # Usage
 
