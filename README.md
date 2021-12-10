@@ -19,6 +19,43 @@ Note that GitHub will remove any cache entries that have not been accessed in ov
 This will help to save some minutes.
 Which matters if your repository is private.
 
+<table>
+    <thead>
+        <tr>
+            <th>Step</th>
+            <th>Job</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="3">Setup Flutter (Before caching)</td>
+            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/runs/4484397669?check_suite_focus=true">test-setup-flutter (ubuntu-latest)</a></td>
+            <td>48s</td>
+        </tr>
+        <tr>
+            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/runs/4484397722?check_suite_focus=true">test-setup-flutter (windows-latest)</a></td>
+            <td>1m 54s</td>
+        </tr>
+        <tr>
+            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/runs/4484397797?check_suite_focus=true">test-setup-flutter (macos-latest)</a></td>
+            <td>1m 2s</td>
+        </tr>
+        <tr>
+            <td rowspan="3">Setup Flutter (After caching)</td>
+            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/runs/4484539956?check_suite_focus=true">test-setup-flutter (ubuntu-latest)</a></td>
+            <td>9s</td>
+        </tr>
+        <tr>
+            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/runs/4484540003?check_suite_focus=true">test-setup-flutter (windows-latest)</a></td>
+            <td>32s</td>
+        </tr>
+        <tr>
+            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/runs/4484540044?check_suite_focus=true">test-setup-flutter (macos-latest)</a></td>
+            <td>13s</td>
+        </tr>
+    </tbody>
+</table>
 
 # Usage
 
