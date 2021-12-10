@@ -1,16 +1,14 @@
 name: 'Setup and cache Flutter SDK'
-description: 'Composite GitHub Action to setup Flutter with in-built tool caching'
+author: 'Hrishikesh Kadam <hrkadam.92@gmail.com>'
+description: 'Composite GitHub Actions to setup and cache the Flutter SDK.'
 inputs:
   ref:
     description: 'channel (stable, beta or master), version(2.8) or any git reference(2.8.0-3.3.pre)'
     required: false
     default: 'stable'
-branding:
-  icon: 'heart'
-  color: 'purple'
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Check Flutter ${{ inputs.ref }} HEAD
       run: |
@@ -33,3 +31,7 @@ runs:
       shell: bash
     - run: flutter --version
       shell: bash
+
+branding:
+  icon: 'heart'
+  color: 'purple'
