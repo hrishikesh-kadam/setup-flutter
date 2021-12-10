@@ -1,10 +1,13 @@
-name: 'Setup Flutter'
+name: 'Setup and cache Flutter SDK'
 description: 'Composite GitHub Action to setup Flutter with in-built tool caching'
 inputs:
   ref:
     description: 'channel (stable, beta or master), version(2.8) or any git reference(2.8.0-3.3.pre)'
     required: false
     default: 'stable'
+branding:
+  icon: 'heart'
+  color: 'purple'
 
 runs:
   using: "composite"
