@@ -1,0 +1,32 @@
+name: 'Setup Flutter'
+description: 'Composite GitHub Action to setup Flutter with in-built tool caching'
+inputs:
+  ref:
+    description: 'channel (stable, beta or master), version(2.8) or any git reference(2.8.0-3.3.pre)'
+    required: false
+    default: 'stable'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check Flutter ${{ inputs.ref }} HEAD
+      run: |
+        echo "FLUTTER_REF_HEAD=$(git ls-remote https://github.com/flutter/flutter ${{ inputs.ref }} | cut -f 1)" >> $GITHUB_ENV
+      shell: bash
+    - name: Check if Flutter is cached
+      id: cache-flutter
+      uses: actions/cache@v2
+      with:
+        path: ${{ runner.tool_cache }}/flutter
+        key: flutter-${{ runner.os }}-${{ inputs.ref }}-${{ env.FLUTTER_REF_HEAD }}
+    - name: Clone Flutter repository if not cached
+      if: steps.cache-flutter.outputs.cache-hit != 'true'
+      run: |
+        git clone --branch ${{ inputs.ref }} --depth 1 \
+        https://github.com/flutter/flutter $RUNNER_TOOL_CACHE/flutter
+      shell: bash
+    - name: Add Flutter to PATH
+      run: echo "$RUNNER_TOOL_CACHE/flutter/bin" >> $GITHUB_PATH
+      shell: bash
+    - run: flutter --version
+      shell: bash

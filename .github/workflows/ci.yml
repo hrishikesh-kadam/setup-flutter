@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    # 12 PM IST / 17:30 GMT every Sunday and Wednesday.
+    # GitHub will remove any cache entries that have not been accessed in over 7 days.
+    - cron: '30 17 * * 0,3'
+
+jobs:
+  test-setup-flutter:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ ubuntu-latest, windows-latest, macos-latest ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Flutter
+        uses: ./
