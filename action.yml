@@ -1,6 +1,6 @@
 name: 'Setup and cache Flutter SDK'
 author: 'Hrishikesh Kadam <hrkadam.92@gmail.com>'
-description: 'Composite GitHub Actions to setup and cache the Flutter SDK.'
+description: 'Composite GitHub Action to setup and cache the Flutter SDK.'
 inputs:
   ref:
     description: 'channel (stable, beta or master), version(2.8) or any git reference(2.8.0-3.3.pre)'

@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/hrishikesh-kadam/setup-flutter/actions/workflows/ci.yml/badge.svg)](https://github.com/hrishikesh-kadam/setup-flutter/actions/workflows/ci.yml)
 
-Composite GitHub Actions to setup and cache the Flutter SDK.
+Composite GitHub Action to setup and cache the Flutter SDK.
 
 This action is intended for the **Hosted Runners**. <br/>
 It does the following:
