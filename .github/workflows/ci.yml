@@ -7,9 +7,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
   schedule:
-    # 12 PM IST / 17:30 GMT every Sunday and Wednesday.
+    # 12 PM IST / 6:30 GMT every Sunday and Wednesday.
     # GitHub will remove any cache entries that have not been accessed in over 7 days.
-    - cron: '30 17 * * 0,3'
+    - cron: '30 6 * * 0,3'
 
 jobs:
   test-setup-flutter:
