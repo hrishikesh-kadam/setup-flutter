@@ -7,9 +7,13 @@ on:
     branches: [ main ]
   workflow_dispatch:
   schedule:
-    # 12 PM IST / 6:30 GMT every Sunday and Wednesday.
+    # 12:00 PM IST / 6:30 AM GMT every Sunday and Wednesday.
     # GitHub will remove any cache entries that have not been accessed in over 7 days.
     - cron: '30 6 * * 0,3'
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   test-setup-flutter:
@@ -22,3 +26,94 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup Flutter
         uses: ./
+      - run: flutter --version
+        shell: pwsh
+      - run: flutter --version
+        if: runner.os == 'Windows'
+        shell: cmd
+      - run: flutter --version
+        if: runner.os == 'Windows'
+        shell: powershell
+
+  test-setup-flutter-with-setPubCachePath:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ ubuntu-latest, macos-latest ]
+        pubCachePath: [ '~/.pub-cache-new' ]
+        include:
+          - runner: windows-latest
+            pubCachePath: '$env:LOCALAPPDATA\NewPub\Cache'
+    steps:
+      - uses: actions/checkout@v2
+      - if: runner.os != 'Windows'
+        run: mkdir ${{ matrix.pubCachePath }}
+      - if: runner.os == 'Windows'
+        shell: pwsh
+        run: mkdir ${{ matrix.pubCachePath }}
+      - name: Setup Flutter
+        uses: ./
+        with:
+          setPubCachePath: ${{ matrix.pubCachePath }}
+      - run: |
+          set -x
+          flutter create myapp
+          cd myapp
+          flutter pub get
+          ls $PUB_CACHE/hosted/pub.dartlang.org
+
+  test-setup-flutter-with-addPubCacheBinToPath:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ ubuntu-latest, windows-latest, macos-latest ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Flutter
+        uses: ./
+        with:
+          setFlutterRootPath: 'true'
+          addPubCacheBinToPath: 'true'
+      - run: dart pub global activate devtools
+      - if: runner.os != 'Windows'
+        run: devtools --help
+      - if: runner.os == 'Windows'
+        shell: pwsh
+        run: devtools --help
+      - run: |
+          DEFAULT_PUB_CACHE=$(./src/get-pub-cache-path.sh)
+          echo "::debug::DEFAULT_PUB_CACHE=$DEFAULT_PUB_CACHE"
+          ls $DEFAULT_PUB_CACHE/global_packages
+
+  test-setup-flutter-with-all:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ ubuntu-latest, macos-latest ]
+        pubCachePath: [ '~/.pub-cache-new' ]
+        include:
+          - runner: windows-latest
+            pubCachePath: '$env:LOCALAPPDATA\NewPub\Cache'
+    steps:
+      - uses: actions/checkout@v2
+      - if: runner.os != 'Windows'
+        run: mkdir ${{ matrix.pubCachePath }}
+      - if: runner.os == 'Windows'
+        shell: pwsh
+        run: mkdir ${{ matrix.pubCachePath }}
+      - name: Setup Flutter
+        uses: ./
+        with:
+          setFlutterRootPath: 'true'
+          setPubCachePath: ${{ matrix.pubCachePath }}
+          addPubCacheBinToPath: 'true'
+      - run: dart pub global activate devtools
+      - if: runner.os != 'Windows'
+        run: devtools --help
+      - if: runner.os == 'Windows'
+        shell: pwsh
+        run: devtools --help
+      - run: ls $PUB_CACHE/global_packages

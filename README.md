@@ -78,7 +78,10 @@ steps:
   - run: # Run your flutter or dart command here
 ```
 
-With specific reference - 
+ref: <br/>
+&nbsp; &nbsp; description: 'channel (stable, beta or master), version(2.8.0) or any git reference(2.8.0-3.3.pre).' <br/>
+&nbsp; &nbsp; required: false <br/>
+&nbsp; &nbsp; default: 'stable' <br/>
 
 ```yml
 steps:
@@ -86,6 +89,62 @@ steps:
   - name: Setup Flutter
     uses: hrishikesh-kadam/setup-flutter@v1
     with:
-      ref: beta # or 2.8 or 2.8.0-3.3.pre,
-  - run: # Run your flutter or dart command here
+      ref: beta # or 2.8.0 or 2.8.0-3.3.pre,
+```
+
+setFlutterRootPath: <br/>
+&nbsp; &nbsp; description: 'Set FLUTTER_ROOT to path where Flutter is installed.' <br/>
+&nbsp; &nbsp; required: false <br/>
+&nbsp; &nbsp; default: 'false' <br/>
+
+```yml
+steps:
+  - uses: actions/checkout@v2
+  - name: Setup Flutter
+    uses: hrishikesh-kadam/setup-flutter@v1
+    with:
+      setFlutterRootPath: 'true'
+```
+
+setPubCachePath: <br/>
+&nbsp; &nbsp; description: 'Set PUB_CACHE to desired path, where pub saves dependencies.' <br/>
+&nbsp; &nbsp; required: false <br/>
+&nbsp; &nbsp; default: '' <br/>
+
+```yml
+my-job:
+  runs-on: ${{ matrix.runner }}
+  strategy:
+    fail-fast: false
+    matrix:
+      runner: [ ubuntu-latest, macos-latest ]
+      pubCachePath: [ '~/.pub-cache-new' ]
+      include:
+        - runner: windows-latest
+          pubCachePath: '$env:LOCALAPPDATA\NewPub\Cache'
+  steps:
+    - uses: actions/checkout@v2
+    - name: Setup Flutter
+      uses: hrishikesh-kadam/setup-flutter@v1
+      with:
+        setPubCachePath: ${{ matrix.pubCachePath }}
+```
+
+addPubCacheBinToPath: <br/>
+&nbsp; &nbsp; description: 'Add PUB_CACHE bin to PATH.\n <br/>
+&nbsp; &nbsp; &nbsp; &nbsp; Note: On Windows, activated global packages can be run by without specifying <br/>
+&nbsp; &nbsp; &nbsp; &nbsp; `dart pub global run` only on pwsh, cmd and powershell.' <br/>
+&nbsp; &nbsp; required: false <br/>
+&nbsp; &nbsp; default: 'false' <br/>
+
+```yml
+steps:
+  - uses: actions/checkout@v2
+  - name: Setup Flutter
+    uses: hrishikesh-kadam/setup-flutter@v1
+    with:
+      addPubCacheBinToPath: 'true'
+  - run: |
+      dart pub global activate devtools
+      devtools --help
 ```
