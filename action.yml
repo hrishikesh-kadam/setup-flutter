@@ -73,7 +73,7 @@ runs:
 
     - name: Add PUB_CACHE bin to PATH
       if: inputs.addPubCacheBinToPath == 'true'
-      run: ./src/add-pub-cache-bin-to-path.sh
+      run: $GITHUB_ACTION_PATH/src/add-pub-cache-bin-to-path.sh
       shell: bash
 
     - run: flutter --version

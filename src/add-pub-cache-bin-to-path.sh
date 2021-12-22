@@ -15,4 +15,4 @@ else
 fi
 
 echo "::debug::Adding $PUB_CACHE_BIN to \$GITHUB_PATH"
-echo "$PUB_CACHE_BIN" >> $GITHUB_PATH
+echo "$PUB_CACHE_BIN" >> "$GITHUB_PATH"
