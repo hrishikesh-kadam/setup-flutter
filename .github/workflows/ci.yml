@@ -21,8 +21,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-#        runner: [ ubuntu-latest, windows-latest ]
-        runner: [ ubuntu-latest, windows-latest, macos-latest ]
+        runner: [ ubuntu-latest, windows-latest ]
+#        runner: [ ubuntu-latest, windows-latest, macos-latest ]
     steps:
       - uses: actions/checkout@v2
       - name: Setup Flutter
@@ -43,8 +43,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-#        runner: [ ubuntu-latest ]
-        runner: [ ubuntu-latest, macos-latest ]
+        runner: [ ubuntu-latest ]
+#        runner: [ ubuntu-latest, macos-latest ]
         pubCachePath: [ '$HOME/.pub-cache-new' ]
         include:
           - runner: windows-latest
@@ -53,8 +53,8 @@ jobs:
             pubCachePath: '/home/runner/.pub-cache-new'
           - runner: windows-latest
             pubCachePath: 'C:\Users\runneradmin\AppData\Local\NewPub\Cache'
-          - runner: macos-latest
-            pubCachePath: '/Users/runner/.pub-cache-new'
+#          - runner: macos-latest
+#            pubCachePath: '/Users/runner/.pub-cache-new'
     steps:
       - uses: actions/checkout@v2
       - name: Setup Flutter
@@ -73,8 +73,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-#        runner: [ ubuntu-latest, windows-latest ]
-        runner: [ ubuntu-latest, windows-latest, macos-latest ]
+        runner: [ ubuntu-latest, windows-latest ]
+#        runner: [ ubuntu-latest, windows-latest, macos-latest ]
     steps:
       - uses: actions/checkout@v2
       - name: Setup Flutter
@@ -98,8 +98,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-#        runner: [ ubuntu-latest ]
-        runner: [ ubuntu-latest, macos-latest ]
+        runner: [ ubuntu-latest ]
+#        runner: [ ubuntu-latest, macos-latest ]
         pubCachePath: [ '$HOME/.pub-cache-new' ]
         include:
           - runner: windows-latest
