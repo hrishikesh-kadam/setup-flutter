@@ -4,17 +4,6 @@
 
 Composite GitHub Action to setup and cache the Flutter SDK.
 
-This action is intended for the **Hosted Runners**. <br/>
-It does the following:
-
-- Checks the SHA of the requested input `ref` (defaults to stable) from the GitHub flutter repo and stores in `$FLUTTER_REF_HEAD`.
-- Checks for the cache entry with key `flutter-${{ runner.os }}-${{ inputs.ref }}-${{ env.FLUTTER_REF_HEAD }}`.
-- If the cache hit is true then it restores in the `$RUNNER_TOOL_CACHE/flutter` folder.
-- If the cache hit is false then it downloads the Flutter from the GitHub repo to `$RUNNER_TOOL_CACHE/flutter` folder.
-- Adds `$RUNNER_TOOL_CACHE/flutter/bin` folder to the `$GITHUB_PATH`.
-- Runs `flutter --version`.
-- If the cache hit was false then post job success, it caches `$RUNNER_TOOL_CACHE/flutter` folder using the key `flutter-${{ runner.os }}-${{ inputs.ref }}-${{ env.FLUTTER_REF_HEAD }}`.
-
 Caching Flutter will help to save some minutes. <br/>
 Private repositories with Free plan has only 2,000 automation minutes/month. <br/>
 And the minutes are counted as - <br/>
@@ -63,7 +52,21 @@ Stats from workflow runs of before and after caching -
     </tbody>
 </table>
 
-Note that GitHub will remove any cache entries that have not been accessed in over 7 days.
+
+# Please Note
+
+- This action is intended for the **Hosted Runners**.
+- Flutter is installed via GitHub repository source and not <br/>
+  via `https://storage.googleapis.com` source.
+- GitHub will remove any cache entries that have not been accessed in over 7 days.
+
+
+# Planned Future releases 
+
+- Support for the Self Hosted Runners.
+- Flutter installation via `https://storage.googleapis.com` source as well. <br/>
+  Like done in https://github.com/subosito/flutter-action
+- Support for the caret versioning.
 
 
 # Usage
