@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Except .gitignored" pattern="!file[setup-flutter]:node_modules//*" />
+</component>

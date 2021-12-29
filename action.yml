@@ -3,7 +3,7 @@ author: 'Hrishikesh Kadam <hrkadam.92@gmail.com>'
 description: 'Composite GitHub Action to setup and cache the Flutter SDK.'
 inputs:
   ref:
-    description: 'channel (stable, beta or master), version(2.8.0) or any git reference(2.8.0-3.3.pre).'
+    description: 'channel (stable, beta or master), version(2.8.1) or any git reference(2.9.0-0.1.pre).'
     required: false
     default: 'stable'
   setFlutterRootPath:
@@ -15,9 +15,9 @@ inputs:
     required: false
     default: ''
   addPubCacheBinToPath:
-    description: 'Add PUB_CACHE bin to PATH.\n
-    Note: On Windows, activated global packages can be run by without specifying 
-    `dart pub global run` only on pwsh, cmd and powershell.'
+    description: 'Add PUB_CACHE bin to PATH.
+      Note: On Windows, activated global packages can be run by without specifying 
+      `dart pub global run` only on pwsh, cmd and powershell.'
     required: false
     default: 'false'
 
@@ -43,33 +43,19 @@ runs:
         https://github.com/flutter/flutter $RUNNER_TOOL_CACHE/flutter
       shell: bash
 
-    - name: Set FLUTTER_ROOT on Linux or macOS
-      if: inputs.setFlutterRootPath == 'true' && runner.os != 'Windows'
-      run: echo "FLUTTER_ROOT=$RUNNER_TOOL_CACHE/flutter" >> $GITHUB_ENV
+    - name: Set FLUTTER_ROOT path
+      if: inputs.setFlutterRootPath == 'true'
+      run: $GITHUB_ACTION_PATH/src/set-flutter-root.sh
       shell: bash
-
-    - name: Set FLUTTER_ROOT on Windows
-      if: inputs.setFlutterRootPath == 'true' && runner.os == 'Windows'
-      run: echo "FLUTTER_ROOT=$env:RUNNER_TOOL_CACHE\flutter" | Out-File -FilePath $env:GITHUB_ENV -Append
-      shell: pwsh
 
     - name: Add Flutter to PATH
       run: echo "$RUNNER_TOOL_CACHE/flutter/bin" >> $GITHUB_PATH
       shell: bash
 
-    - name: Set PUB_CACHE on Linux or macOS
-      if: inputs.setPubCachePath != '' && runner.os != 'Windows'
-      run: |
-        PUB_CACHE=${{ inputs.setPubCachePath }}
-        echo "PUB_CACHE=$PUB_CACHE" >> $GITHUB_ENV
+    - name: Set PUB_CACHE path
+      if: inputs.setPubCachePath != ''
+      run: echo "PUB_CACHE=${{ inputs.setPubCachePath }}" >> $GITHUB_ENV
       shell: bash
-
-    - name: Set PUB_CACHE on Windows
-      if: inputs.setPubCachePath != '' && runner.os == 'Windows'
-      run: |
-        $env:PUB_CACHE="${{ inputs.setPubCachePath }}"
-        echo "PUB_CACHE=$env:PUB_CACHE" | Out-File -FilePath $env:GITHUB_ENV -Append
-      shell: pwsh
 
     - name: Add PUB_CACHE bin to PATH
       if: inputs.addPubCacheBinToPath == 'true'

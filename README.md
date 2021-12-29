@@ -79,7 +79,7 @@ steps:
 ```
 
 ref: <br/>
-&nbsp; &nbsp; description: 'channel (stable, beta or master), version(2.8.0) or any git reference(2.8.0-3.3.pre).' <br/>
+&nbsp; &nbsp; description: 'channel (stable, beta or master), version(2.8.1) or any git reference(2.9.0-0.1.pre).' <br/>
 &nbsp; &nbsp; required: false <br/>
 &nbsp; &nbsp; default: 'stable' <br/>
 
@@ -89,7 +89,7 @@ steps:
   - name: Setup Flutter
     uses: hrishikesh-kadam/setup-flutter@v1
     with:
-      ref: beta # or 2.8.0 or 2.8.0-3.3.pre,
+      ref: beta # or 2.8.1 or 2.9.0-0.1.pre,
 ```
 
 setFlutterRootPath: <br/>
@@ -118,10 +118,10 @@ my-job:
     fail-fast: false
     matrix:
       runner: [ ubuntu-latest, macos-latest ]
-      pubCachePath: [ '~/.pub-cache-new' ]
+      pubCachePath: [ '$HOME/.pub-cache' ]
       include:
         - runner: windows-latest
-          pubCachePath: '$env:LOCALAPPDATA\NewPub\Cache'
+          pubCachePath: '$LOCALAPPDATA\Pub\Cache'
   steps:
     - uses: actions/checkout@v2
     - name: Setup Flutter
@@ -131,7 +131,7 @@ my-job:
 ```
 
 addPubCacheBinToPath: <br/>
-&nbsp; &nbsp; description: 'Add PUB_CACHE bin to PATH.\n <br/>
+&nbsp; &nbsp; description: 'Add PUB_CACHE bin to PATH. <br/>
 &nbsp; &nbsp; &nbsp; &nbsp; Note: On Windows, activated global packages can be run by without specifying <br/>
 &nbsp; &nbsp; &nbsp; &nbsp; `dart pub global run` only on pwsh, cmd and powershell.' <br/>
 &nbsp; &nbsp; required: false <br/>

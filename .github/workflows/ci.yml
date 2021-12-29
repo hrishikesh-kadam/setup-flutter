@@ -16,11 +16,12 @@ defaults:
     shell: bash
 
 jobs:
-  test-setup-flutter:
+  test-basic:
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
+#        runner: [ ubuntu-latest, windows-latest ]
         runner: [ ubuntu-latest, windows-latest, macos-latest ]
     steps:
       - uses: actions/checkout@v2
@@ -35,23 +36,27 @@ jobs:
         if: runner.os == 'Windows'
         shell: powershell
 
-  test-setup-flutter-with-setPubCachePath:
+# TODO: Add test-setup-flutter-with-setFlutterRootPath
+
+  test-with-setPubCachePath:
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
+#        runner: [ ubuntu-latest ]
         runner: [ ubuntu-latest, macos-latest ]
-        pubCachePath: [ '~/.pub-cache-new' ]
+        pubCachePath: [ '$HOME/.pub-cache-new' ]
         include:
           - runner: windows-latest
-            pubCachePath: '$env:LOCALAPPDATA\NewPub\Cache'
+            pubCachePath: '$LOCALAPPDATA\NewPub\Cache'
+          - runner: ubuntu-latest
+            pubCachePath: '/home/runner/.pub-cache-new'
+          - runner: windows-latest
+            pubCachePath: 'C:\Users\runneradmin\AppData\Local\NewPub\Cache'
+          - runner: macos-latest
+            pubCachePath: '/Users/runner/.pub-cache-new'
     steps:
       - uses: actions/checkout@v2
-      - if: runner.os != 'Windows'
-        run: mkdir ${{ matrix.pubCachePath }}
-      - if: runner.os == 'Windows'
-        shell: pwsh
-        run: mkdir ${{ matrix.pubCachePath }}
       - name: Setup Flutter
         uses: ./
         with:
@@ -63,11 +68,12 @@ jobs:
           flutter pub get
           ls $PUB_CACHE/hosted/pub.dartlang.org
 
-  test-setup-flutter-with-addPubCacheBinToPath:
+  test-with-addPubCacheBinToPath:
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
+#        runner: [ ubuntu-latest, windows-latest ]
         runner: [ ubuntu-latest, windows-latest, macos-latest ]
     steps:
       - uses: actions/checkout@v2
@@ -87,23 +93,19 @@ jobs:
           echo "::debug::DEFAULT_PUB_CACHE=$DEFAULT_PUB_CACHE"
           ls $DEFAULT_PUB_CACHE/global_packages
 
-  test-setup-flutter-with-all:
+  test-with-all:
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
+#        runner: [ ubuntu-latest ]
         runner: [ ubuntu-latest, macos-latest ]
-        pubCachePath: [ '~/.pub-cache-new' ]
+        pubCachePath: [ '$HOME/.pub-cache-new' ]
         include:
           - runner: windows-latest
-            pubCachePath: '$env:LOCALAPPDATA\NewPub\Cache'
+            pubCachePath: '$LOCALAPPDATA\NewPub\Cache'
     steps:
       - uses: actions/checkout@v2
-      - if: runner.os != 'Windows'
-        run: mkdir ${{ matrix.pubCachePath }}
-      - if: runner.os == 'Windows'
-        shell: pwsh
-        run: mkdir ${{ matrix.pubCachePath }}
       - name: Setup Flutter
         uses: ./
         with:
