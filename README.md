@@ -56,8 +56,8 @@ Stats from workflow runs of before and after caching -
 # Please Note
 
 - This action is intended for the **Hosted Runners**.
-- Flutter is installed via GitHub repository source and not <br/>
-  via `https://storage.googleapis.com` source.
+- Flutter is installed via GitHub repository source and not via <br/>
+  `https://storage.googleapis.com` source which comes with [Installation Bundles][].
 - GitHub will remove any cache entries that have not been accessed in over 7 days.
 
 
@@ -151,3 +151,6 @@ steps:
       dart pub global activate devtools
       devtools --help
 ```
+
+
+[Installation Bundles]: https://github.com/flutter/flutter/wiki/Flutter-Installation-Bundles
