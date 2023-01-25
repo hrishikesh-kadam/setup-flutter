@@ -66,7 +66,7 @@ jobs:
           flutter create myapp
           cd myapp
           flutter pub get
-          ls $PUB_CACHE/hosted/pub.dartlang.org
+          ls $PUB_CACHE/hosted/pub.dev
 
   test-with-addPubCacheBinToPath:
     runs-on: ${{ matrix.runner }}
