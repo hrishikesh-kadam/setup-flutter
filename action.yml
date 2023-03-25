@@ -1,11 +1,24 @@
-name: 'Setup and cache Flutter SDK'
+name: 'hrk-setup-flutter'
 author: 'Hrishikesh Kadam <hrkadam.92@gmail.com>'
 description: 'Composite GitHub Action to setup and cache the Flutter SDK.'
 inputs:
   ref:
-    description: 'channel (stable, beta or master), version(2.8.1) or any git reference(2.9.0-0.1.pre).'
+    description: 'Channel (stable, beta or master), version(3.7.8) or any git reference(3.9.0-0.1.pre).'
     required: false
     default: 'stable'
+  installationPath:
+    description: 'Installation Path of Flutter SDK.'
+    required: false
+    default: '${{ runner.tool_cache }}/flutter'
+  actionsCache:
+    description: 'Cache Flutter SDK for subsequent GitHub Actions Workflow.'
+    required: false
+    default: 'true'
+  actionsCacheKey:
+    description: 'An explicit key for a cache entry.
+      Default key will be computed as `flutter-{OS}-{ref}-{ref_head}`.'
+    required: false
+    default: ''
   setFlutterRootPath:
     description: 'Set FLUTTER_ROOT to path where Flutter is installed.'
     required: false
@@ -20,36 +33,46 @@ inputs:
       `dart pub global run` only on pwsh, cmd and powershell.'
     required: false
     default: 'false'
+  flutterPrecache:
+    description: "Populate the Flutter tool's cache of binary artifacts.
+      For additional download options, see `flutter help precache`."
+    required: false
+    default: 'false'
 
 runs:
   using: 'composite'
   steps:
-    - name: Check Flutter ${{ inputs.ref }} HEAD
-      run: |
-        echo "FLUTTER_REF_HEAD=$(git ls-remote https://github.com/flutter/flutter ${{ inputs.ref }} | cut -f 1)" >> $GITHUB_ENV
+    - name: Run init script
+      run: $GITHUB_ACTION_PATH/src/init.sh
       shell: bash
+      env:
+        SETUP_FLUTTER_REF: ${{ inputs.ref }}
+        SETUP_FLUTTER_INSTALLATION_PATH: ${{ inputs.installationPath }}
+        SETUP_FLUTTER_ACTIONS_CACHE: ${{ inputs.actionsCache }}
+        SETUP_FLUTTER_ACTIONS_CACHE_KEY: ${{ inputs.actionsCacheKey }}
 
     - name: Check if Flutter is cached
+      if: inputs.actionsCache == 'true'
       id: cache-flutter
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
-        path: ${{ runner.tool_cache }}/flutter
-        key: flutter-${{ runner.os }}-${{ inputs.ref }}-${{ env.FLUTTER_REF_HEAD }}
+        path: ${{ env.SETUP_FLUTTER_INSTALLATION_PATH }}
+        key: ${{ env.SETUP_FLUTTER_ACTIONS_CACHE_KEY }}
 
     - name: Clone Flutter repository if not cached
-      if: steps.cache-flutter.outputs.cache-hit != 'true'
+      if: inputs.actionsCache != 'true' || steps.cache-flutter.outputs.cache-hit != 'true'
       run: |
-        git clone --branch ${{ inputs.ref }} --depth 1 \
-        https://github.com/flutter/flutter $RUNNER_TOOL_CACHE/flutter
+        git clone --branch ${{ inputs.ref }} \
+          https://github.com/flutter/flutter $SETUP_FLUTTER_INSTALLATION_PATH
       shell: bash
 
     - name: Set FLUTTER_ROOT path
       if: inputs.setFlutterRootPath == 'true'
-      run: $GITHUB_ACTION_PATH/src/set-flutter-root.sh
+      run: echo "FLUTTER_ROOT=$SETUP_FLUTTER_INSTALLATION_PATH" >> $GITHUB_ENV
       shell: bash
 
     - name: Add Flutter to PATH
-      run: echo "$RUNNER_TOOL_CACHE/flutter/bin" >> $GITHUB_PATH
+      run: echo "$SETUP_FLUTTER_INSTALLATION_PATH/bin" >> $GITHUB_PATH
       shell: bash
 
     - name: Set PUB_CACHE path
@@ -60,6 +83,19 @@ runs:
     - name: Add PUB_CACHE bin to PATH
       if: inputs.addPubCacheBinToPath == 'true'
       run: $GITHUB_ACTION_PATH/src/add-pub-cache-bin-to-path.sh
+      shell: bash
+
+    - name: Run Flutter Precache
+      if: inputs.flutterPrecache != 'false' && 
+        (inputs.actionsCache != 'true' || steps.cache-flutter.outputs.cache-hit != 'true')
+      run: |
+        if [[ "${{ inputs.flutterPrecache }}" == "true" ]]; then
+          set -x
+          flutter precache
+        else
+          set -x
+          flutter precache ${{ inputs.flutterPrecache }}
+        fi
       shell: bash
 
     - run: flutter --version
