@@ -1,0 +1,34 @@
+name: CI for comparison
+
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test-uncached-jobs:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        runner: [ ubuntu-latest, windows-latest, macos-latest ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Flutter
+        uses: ./
+        with:
+          actionsCacheKey: 'flutter-${{ runner.os }}-compare'
+
+  test-cached-jobs:
+    needs: test-uncached-jobs
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        runner: [ ubuntu-latest, windows-latest, macos-latest ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Flutter
+        uses: ./
+        with:
+          actionsCacheKey: 'flutter-${{ runner.os }}-compare'
