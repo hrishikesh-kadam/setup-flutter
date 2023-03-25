@@ -12,42 +12,46 @@ Windows - 1 minute counted as 2 regular minutes.
 macOS - 1 minute counted as 10 regular minutes.  
 Usage for the month can be seen in https://github.com/settings/billing
 
-Stats from workflow runs of before and after caching - 
+Below are the stats of before and after caching based on the following conditions - 
+1. Time is the lowest recorded time of the 'Setup Flutter' step, from  
+   the multiple runs of [ci-compare.yml] workflow.
+2. Ran on the same SHA of the Action.
+3. Ran on the same ref(SHA) of the Flutter SDK.
 
 <table>
     <thead>
         <tr>
             <th>Step</th>
-            <th>Job</th>
+            <th>OS</th>
             <th>Time</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td rowspan="3">Setup Flutter (Before caching)</td>
-            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/runs/4484397669?check_suite_focus=true">test-setup-flutter (ubuntu-latest)</a></td>
-            <td>48s</td>
+            <td>ubuntu-latest</td>
+            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/actions/runs/4519066835/jobs/7959323498">44s</td>
         </tr>
         <tr>
-            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/runs/4484397722?check_suite_focus=true">test-setup-flutter (windows-latest)</a></td>
-            <td>1m 54s</td>
+            <td>windows-latest</td>
+            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/actions/runs/4519066835/jobs/7959323540">74s</td>
         </tr>
         <tr>
-            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/runs/4484397797?check_suite_focus=true">test-setup-flutter (macos-latest)</a></td>
-            <td>1m 2s</td>
+            <td>macos-latest</td>
+            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/actions/runs/4519081549/jobs/7959348166">60s</td>
         </tr>
         <tr>
             <td rowspan="3">Setup Flutter (After caching)</td>
-            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/runs/4484539956?check_suite_focus=true">test-setup-flutter (ubuntu-latest)</a></td>
-            <td>9s</td>
+            <td>ubuntu-latest</td>
+            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/actions/runs/4519081549/jobs/7959378374">10s</td>
         </tr>
         <tr>
-            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/runs/4484540003?check_suite_focus=true">test-setup-flutter (windows-latest)</a></td>
-            <td>32s</td>
+            <td>windows-latest</td>
+            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/actions/runs/4518568387/jobs/7958540918">24s</td>
         </tr>
         <tr>
-            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/runs/4484540044?check_suite_focus=true">test-setup-flutter (macos-latest)</a></td>
-            <td>13s</td>
+            <td>macos-latest</td>
+            <td><a href="https://github.com/hrishikesh-kadam/setup-flutter/actions/runs/4519066835/jobs/7959333266">15s</td>
         </tr>
     </tbody>
 </table>
@@ -55,11 +59,12 @@ Stats from workflow runs of before and after caching -
 
 # Please Note
 
-- Flutter is installed via GitHub repository source and not via `https://storage.googleapis.com` source.  The later source comes with [Installation Bundles].  
+- Flutter is installed via GitHub repository source and not via `https://storage.googleapis.com` source.  
+  The later source comes with [Installation Bundles].  
   See also, [Flutter's Official Installation].
 - GitHub will remove any cache entries that have not been accessed in over 7 days.
 - This action is intended for the **GitHub-hosted runners**.  
-  Not tested on the **Self-hosted runners**.
+  Not tested on the **Self-hosted runners** yet.
 
 
 # Usage
@@ -304,6 +309,6 @@ steps:
         # will execute `flutter precache --linux --web`
 ```
 
-
+[ci-compare.yml]: https://github.com/hrishikesh-kadam/setup-flutter/blob/main/.github/workflows/ci-compare.yml
 [Installation Bundles]: https://github.com/flutter/flutter/wiki/Flutter-Installation-Bundles
 [Flutter's Official Installation]: https://docs.flutter.dev/get-started/install
