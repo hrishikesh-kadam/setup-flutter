@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 2023-03-28
+### Fixed
+- Input `actionsCacheKey`
+
 ## [1.3.0] - 2023-03-25
 ### Added
 - Inputs `installationPath`, `actionsCache`, `actionsCacheKey` and `flutterPrecache`.

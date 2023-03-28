@@ -15,8 +15,9 @@ inputs:
     required: false
     default: 'true'
   actionsCacheKey:
-    description: 'An explicit key for a cache entry.
-      Default key will be computed as `flutter-{OS}-{ref}-{ref_head}`.'
+    description: "An explicit key for a cache entry.
+      SHA of ref's HEAD will be appended to the given key.
+      Default key will be computed as `flutter-{OS}-{ref}-{ref_head}`."
     required: false
     default: ''
   setFlutterRootPath:
