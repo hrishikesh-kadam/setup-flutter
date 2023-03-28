@@ -163,6 +163,7 @@ steps:
   <tr>
     <td>description</td>
     <td>An explicit key for a cache entry.<br/>
+      SHA of ref's HEAD will be appended to the given key.<br/>
       Default key will be computed as `flutter-{OS}-{ref}-{ref_head}`.
     </td>
   </tr>
