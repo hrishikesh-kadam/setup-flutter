@@ -39,15 +39,25 @@ inputs:
       For additional download options, see `flutter help precache`."
     required: false
     default: 'false'
+  pubSpecPath:
+    description: 'pubspec.yaml location.'
+    required: false
+    default: 'pubspec.yaml'
 
 runs:
   using: 'composite'
   steps:
+    - name: Get Flutter version from pubspec.yaml
+      id: flutter-version
+      uses: jbutcher5/read-yaml@v1.4
+      with:
+        file: ${{ inputs.pubSpecPath }}
+        key-path: '["environment","flutter"]'
     - name: Run init script
       run: $GITHUB_ACTION_PATH/src/init.sh
       shell: bash
       env:
-        SETUP_FLUTTER_REF: ${{ inputs.ref }}
+        SETUP_FLUTTER_REF: ${{ steps.flutter-version.outputs.data }}
         SETUP_FLUTTER_INSTALLATION_PATH: ${{ inputs.installationPath }}
         SETUP_FLUTTER_ACTIONS_CACHE: ${{ inputs.actionsCache }}
         SETUP_FLUTTER_ACTIONS_CACHE_KEY: ${{ inputs.actionsCacheKey }}
