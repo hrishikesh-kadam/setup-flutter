@@ -73,7 +73,7 @@ Below are the stats of before and after caching based on the following condition
 
 ```yml
 steps:
-  - uses: actions/checkout@v3
+  - uses: actions/checkout@v4
   - name: Setup Flutter
     uses: hrishikesh-kadam/setup-flutter@v1
   - run: # Run your flutter or dart command here
@@ -98,7 +98,7 @@ steps:
 
 ```yml
 steps:
-  - uses: actions/checkout@v3
+  - uses: actions/checkout@v4
   - name: Setup Flutter
     uses: hrishikesh-kadam/setup-flutter@v1
     with:
@@ -124,7 +124,7 @@ steps:
 
 ```yml
 steps:
-  - uses: actions/checkout@v3
+  - uses: actions/checkout@v4
   - name: Setup Flutter
     uses: hrishikesh-kadam/setup-flutter@v1
     with:
@@ -150,7 +150,7 @@ steps:
 
 ```yml
 steps:
-  - uses: actions/checkout@v3
+  - uses: actions/checkout@v4
   - name: Setup Flutter
     uses: hrishikesh-kadam/setup-flutter@v1
     with:
@@ -179,7 +179,7 @@ steps:
 
 ```yml
 steps:
-  - uses: actions/checkout@v3
+  - uses: actions/checkout@v4
   - name: Setup Flutter
     uses: hrishikesh-kadam/setup-flutter@v1
     with:
@@ -206,7 +206,7 @@ steps:
 
 ```yml
 steps:
-  - uses: actions/checkout@v3
+  - uses: actions/checkout@v4
   - name: Setup Flutter
     uses: hrishikesh-kadam/setup-flutter@v1
     with:
@@ -241,7 +241,7 @@ my-job:
         - runner: windows-latest
           pubCachePath: '$LOCALAPPDATA\Pub\Cache'
   steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup Flutter
       uses: hrishikesh-kadam/setup-flutter@v1
       with:
@@ -269,14 +269,14 @@ my-job:
 
 ```yml
 steps:
-  - uses: actions/checkout@v3
+  - uses: actions/checkout@v4
   - name: Setup Flutter
     uses: hrishikesh-kadam/setup-flutter@v1
     with:
       addPubCacheBinToPath: 'true'
   - run: |
-      dart pub global activate markdown
-      markdown --help
+      dart pub global activate dhttpd
+      dhttpd --help
 ```
 
 ## `flutterPrecache`
@@ -300,7 +300,7 @@ steps:
 
 ```yml
 steps:
-  - uses: actions/checkout@v3
+  - uses: actions/checkout@v4
   - name: Setup Flutter
     uses: hrishikesh-kadam/setup-flutter@v1
     with:

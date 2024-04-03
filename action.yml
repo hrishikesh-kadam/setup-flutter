@@ -55,7 +55,7 @@ runs:
     - name: Check if Flutter is cached
       if: inputs.actionsCache == 'true'
       id: cache-flutter
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.SETUP_FLUTTER_INSTALLATION_PATH }}
         key: ${{ env.SETUP_FLUTTER_ACTIONS_CACHE_KEY }}
