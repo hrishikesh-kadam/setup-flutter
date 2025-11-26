@@ -23,7 +23,7 @@ jobs:
       matrix:
         runner: [ ubuntu-latest, windows-latest, macos-latest ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Flutter
         uses: ./
       - run: flutter --version
@@ -43,7 +43,7 @@ jobs:
       matrix:
         runner: [ ubuntu-latest ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Flutter
         uses: ./
         with:
@@ -57,7 +57,7 @@ jobs:
       matrix:
         runner: [ ubuntu-latest ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Flutter
         uses: ./
         with:
@@ -75,7 +75,7 @@ jobs:
           - runner: ubuntu-latest
             actionsCache: 'false'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Flutter
         uses: ./
         with:
@@ -93,7 +93,7 @@ jobs:
           - runner: windows-latest
             pubCachePath: '$LOCALAPPDATA\FooPub\Cache'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Flutter
         uses: ./
         with:
